@@ -19,16 +19,16 @@ CHECKPOINT_MODELS=(
     #"https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.ckpt"
     #"https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors"
     #"https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors"
-    https://civitai.com/api/download/models/610021?type=Model&format=SafeTensor&size=full&fp=fp16 #pony realism inpainting
+    "https://civitai.com/api/download/models/610021?type=Model&format=SafeTensor&size=full&fp=fp16" #pony realism inpainting
 )
 
 LORA_MODELS=(
     #"https://civitai.com/api/download/models/16576"
-    https://civitai.com/api/download/models/307575?type=Model&format=SafeTensor #nipples xl inpaint
-    https://civitai.com/api/download/models/539041?type=Model&format=SafeTensor #pubic_hair_slider
-    https://civitai.com/api/download/models/424958?type=Model&format=SafeTensor #pet_play
-    https://civitai.com/api/download/models/366041?type=Model&format=SafeTensor #collar
-    https://civitai.com/api/download/models/518751?type=Model&format=SafeTensor #facial_inpaint
+    "https://civitai.com/api/download/models/307575?type=Model&format=SafeTensor" #nipples xl inpaint
+    "https://civitai.com/api/download/models/539041?type=Model&format=SafeTensor" #pubic_hair_slider
+    "https://civitai.com/api/download/models/424958?type=Model&format=SafeTensor" #pet_play
+    "https://civitai.com/api/download/models/366041?type=Model&format=SafeTensor" #collar
+    "https://civitai.com/api/download/models/518751?type=Model&format=SafeTensor" #facial_inpaint
 )
 
 
