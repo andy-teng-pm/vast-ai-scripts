@@ -35,6 +35,12 @@ LORA_MODELS=(
 )
 
 VAE_MODELS=(
+    "https://huggingface.co/ffxvs/vae-flux/resolve/main/ae.safetensors"
+)
+
+TEXT_ENCODER_MODELS=(
+    "https://huggingface.co/comfyanonymous/flux_text_encoders/resolve/main/t5xxl_fp16.safetensors"
+    "https://huggingface.co/comfyanonymous/flux_text_encoders/resolve/main/clip_l.safetensors"
 )
 
 ESRGAN_MODELS=(
@@ -68,6 +74,9 @@ function provisioning_start() {
     provisioning_get_files \
         "${COMFYUI_DIR}/models/esrgan" \
         "${ESRGAN_MODELS[@]}"
+    provisioning_get_files \
+        "${COMFYUI_DIR}/models/text_encoders" \
+        "${TEXT_ENCODER_MODELS[@]}"
     provisioning_print_end
 }
 
@@ -176,30 +185,16 @@ function provisioning_download() {
     fi
 }
 
-CONFIG_DIR="/root/syncthing-config"
+
 DEVICE_ID="BLVHPTA-EQERNYN-I2GFOIQ-POBNMOE-PJBUOMJ-3TT2IGF-ZL3HZOM-GZ3L3AJ"
 FOLDER_ID="comfyui-outputs"
 FOLDER_PATH="/workflow/ComfyUI/outputs"
 
-mkdir -p "$CONFIG_DIR"
+syncthing cli config devices add --device-id $DEVICE_ID
 
-# Generate config if missing
-if [ ! -f "$CONFIG_DIR/config.xml" ]; then
-    syncthing -generate="$CONFIG_DIR"
-fi
+syncthing cli config folders add --id $FOLDER_ID --path $FOLDER_PATH
 
-# Add device if missing
-if ! grep -q "$DEVICE_ID" "$CONFIG_DIR/config.xml"; then
-    sed -i "/<devices>/a \ \ \ \ <device id='$DEVICE_ID'><name>LocalMachine</name><addresses>dynamic</addresses></device>" "$CONFIG_DIR/config.xml"
-fi
-
-# Add folder if missing
-if ! grep -q "id='$FOLDER_ID'" "$CONFIG_DIR/config.xml"; then
-    sed -i "/<folders>/a \ \ \ \ <folder id='$FOLDER_ID' label='ComfyUI Outputs' path='$FOLDER_PATH' type='sendonly'><device id='$DEVICE_ID'/></folder>" "$CONFIG_DIR/config.xml"
-fi
-
-# Start Syncthing
-syncthing -home="$CONFIG_DIR" -no-browser -gui-address="0.0.0.0:8384"
+syncthing cli config folders $FOLDER_ID devices add --device-id $DEVICE_ID
 
 # Allow user to disable provisioning if they started with a script they didn't want
 if [[ ! -f /.noprovisioning ]]; then
